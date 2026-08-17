@@ -155,8 +155,8 @@
 ;;
 ;;   - un identificador solo nunca está ligado: no hay lambda alrededor;
 ;;   - en `(lambda (y) cuerpo)` está ligada si ya lo estaba dentro del cuerpo,
-;;     o si y es la variable y esta aparece libre en el cuerpo, que es
-;;     justamente lo que este lambda liga;
+;;     o si y es la variable y esta aparece libre en el cuerpo: eso es
+;;     justamente lo que liga este lambda;
 ;;   - en `(e1 e2)` está ligada si lo está en e1 o en e2.
 ;;
 ;; El segundo caso es el que separa las dos funciones: `(lambda (x) y)` liga x

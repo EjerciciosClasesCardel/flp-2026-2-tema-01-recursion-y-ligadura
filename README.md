@@ -174,8 +174,8 @@ cuerpo; en `(e1 e2)` es libre si aparece libre en alguna de las dos.
 decir si hay una ocurrencia suya dentro del cuerpo de un lambda que la
 declara. Un identificador solo nunca está ligado. En `(lambda (y) cuerpo)` lo
 está si ya lo estaba dentro del cuerpo, o si `y` es la variable y esta aparece
-libre en el cuerpo, que es lo que ese lambda liga. En `(e1 e2)`, si lo está en
-alguna de las dos.
+libre en el cuerpo: eso es justamente lo que liga ese lambda. En `(e1 e2)`, si
+lo está en alguna de las dos.
 
 ```racket
 (occurs-bound? 'x 'x)                   ; => #f

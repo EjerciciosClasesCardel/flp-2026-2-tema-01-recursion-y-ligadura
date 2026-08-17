@@ -1,10 +1,14 @@
 #lang eopl
 
-;; Tema 1 — Recursión sobre listas
+;; Tema 1 — Recursión sobre listas, alcance y ligadura
 ;; Fundamentos de Interpretación y Compilación de Lenguajes de Programación
 ;; Universidad del Valle, sede Tuluá
 ;;
-;; Escriba aquí las cuatro funciones. No modifique la carpeta pruebas/.
+;; Escriba aquí las seis funciones. No modifique la carpeta pruebas/.
+;;
+;; Los puntos 1 a 4 son recursión estructural sobre listas y s-lists. Los
+;; puntos 5 y 6 son la otra mitad del tema: alcance y ligadura de variables,
+;; sobre expresiones lambda representadas como listas de Scheme.
 ;;
 ;; Reglas del curso que aplican desde esta primera sesión:
 ;;   - recursión estructural sobre la lista, nada de bucles;
@@ -12,9 +16,12 @@
 ;;   - las funciones de la biblioteca que resuelven el ejercicio de un golpe
 ;;     (`reverse`, `filter`, `flatten`, `append*`) quedan descartadas: lo que
 ;;     se está practicando es escribir la recursión, no encontrar quién la
-;;     escribió por uno.
+;;     escribió por uno;
+;;   - nada de `eval` ni de expandir el código con las herramientas de Racket:
+;;     la respuesta de los puntos 5 y 6 se calcula recorriendo la expresión.
 
-(provide ejemplo-duple invert filter-in count-occurrences flatten)
+(provide ejemplo-duple invert filter-in count-occurrences flatten
+         occurs-free? occurs-bound?)
 
 ;; ---------------------------------------------------------------------------
 ;; Ejemplo resuelto: así se ve una recursión estructural sobre un número
@@ -93,3 +100,73 @@
 (define flatten
   (lambda (slist)
     (eopl:error 'flatten "sin implementar")))
+
+;; ---------------------------------------------------------------------------
+;; Alcance y ligadura
+;;
+;; Los dos puntos que siguen trabajan sobre expresiones del cálculo lambda con
+;; la gramática de la sección 1.2.4 de EOPL:
+;;
+;;   LcExp ::= Identifier
+;;         ::= (lambda (Identifier) LcExp)
+;;         ::= (LcExp LcExp)
+;;
+;; En listas de Scheme son tres formas: un símbolo, `(lambda (x) cuerpo)` y
+;; `(e1 e2)`. La recursión tiene entonces tres casos, uno por producción, y en
+;; cada uno se pregunta lo mismo a las subexpresiones.
+;;
+;;   '(lambda (x) (x y))          una abstracción: liga x, y queda suelta
+;;   '((lambda (x) x) x)          una aplicación de una abstracción a x
+;;
+;; Una variable está ligada donde un lambda que la declara la alcanza, y libre
+;; donde no. Las dos cosas pueden pasarle a la misma variable en la misma
+;; expresión: en `((lambda (x) x) x)` la primera x está ligada por el lambda y
+;; la segunda, la del argumento, no la alcanza ningún lambda.
+
+;; ---------------------------------------------------------------------------
+;; Punto 5
+;;
+;; occurs-free? : Sym × LcExp -> Bool
+;; Dice si la variable aparece libre en la expresión, es decir si hay una
+;; ocurrencia suya que ningún lambda liga. La definición de EOPL, sección
+;; 1.2.4, va por los tres casos de la gramática:
+;;
+;;   - la expresión es un identificador: libre si es esa misma variable;
+;;   - es `(lambda (y) cuerpo)`: libre si la variable no es y y aparece libre
+;;     en el cuerpo, porque el lambda liga y y solo a y;
+;;   - es `(e1 e2)`: libre si aparece libre en e1 o en e2.
+;;
+;; (occurs-free? 'x 'x)                       =>  #t
+;; (occurs-free? 'x '(lambda (x) (x y)))      =>  #f
+;; (occurs-free? 'x '(lambda (y) (x y)))      =>  #t
+;; (occurs-free? 'x '((lambda (x) x) x))      =>  #t
+
+(define occurs-free?
+  (lambda (var exp)
+    (eopl:error 'occurs-free? "sin implementar")))
+
+;; ---------------------------------------------------------------------------
+;; Punto 6
+;;
+;; occurs-bound? : Sym × LcExp -> Bool
+;; Dice si la variable aparece ligada en la expresión, es decir si hay una
+;; ocurrencia suya dentro del cuerpo de un lambda que la declara. Los tres
+;; casos otra vez:
+;;
+;;   - un identificador solo nunca está ligado: no hay lambda alrededor;
+;;   - en `(lambda (y) cuerpo)` está ligada si ya lo estaba dentro del cuerpo,
+;;     o si y es la variable y esta aparece libre en el cuerpo, que es
+;;     justamente lo que este lambda liga;
+;;   - en `(e1 e2)` está ligada si lo está en e1 o en e2.
+;;
+;; El segundo caso es el que separa las dos funciones: `(lambda (x) y)` liga x
+;; pero no la usa en ninguna parte, así que x no aparece ligada ahí.
+;;
+;; (occurs-bound? 'x 'x)                      =>  #f
+;; (occurs-bound? 'x '(lambda (x) x))         =>  #t
+;; (occurs-bound? 'x '(lambda (x) y))         =>  #f
+;; (occurs-bound? 'x '((lambda (x) x) x))     =>  #t
+
+(define occurs-bound?
+  (lambda (var exp)
+    (eopl:error 'occurs-bound? "sin implementar")))

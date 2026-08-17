@@ -80,9 +80,47 @@
    (verificar "solo listas vacías"
               '() (flatten '(() (()) ())))))
 
+(define suite-occurs-free
+  (test-suite
+   "Punto 5 — occurs-free?"
+   (verificar "la variable sola"
+              #t (occurs-free? 'x 'x))
+   (verificar "otra variable"
+              #f (occurs-free? 'x 'y))
+   (verificar "el lambda la liga"
+              #f (occurs-free? 'x '(lambda (x) (x y))))
+   (verificar "el lambda liga otra variable"
+              #t (occurs-free? 'x '(lambda (y) (x y))))
+   (verificar "libre en el operando de la aplicación"
+              #t (occurs-free? 'x '((lambda (x) x) x)))
+   (verificar "el lambda interior la oculta"
+              #f (occurs-free? 'x '(lambda (y) (lambda (x) (x y)))))
+   (verificar "libre en el fondo del anidamiento"
+              #t (occurs-free? 'x '(lambda (y) (lambda (z) (x z)))))))
+
+(define suite-occurs-bound
+  (test-suite
+   "Punto 6 — occurs-bound?"
+   (verificar "una variable sola no está ligada"
+              #f (occurs-bound? 'x 'x))
+   (verificar "el lambda la liga y el cuerpo la usa"
+              #t (occurs-bound? 'x '(lambda (x) x)))
+   (verificar "el lambda la liga pero el cuerpo no la usa"
+              #f (occurs-bound? 'x '(lambda (x) y)))
+   (verificar "bajo un lambda que liga otra variable"
+              #f (occurs-bound? 'x '(lambda (y) x)))
+   (verificar "ligada en el operador de la aplicación"
+              #t (occurs-bound? 'x '((lambda (x) x) x)))
+   (verificar "la liga el lambda interior"
+              #t (occurs-bound? 'x '(lambda (y) (lambda (x) (x y)))))
+   (verificar "solo aparece como argumento"
+              #f (occurs-bound? 'y '((lambda (x) x) y)))))
+
 (module+ test
   (run-tests suite-entorno)
   (run-tests suite-invert)
   (run-tests suite-filter-in)
   (run-tests suite-count-occurrences)
-  (run-tests suite-flatten))
+  (run-tests suite-flatten)
+  (run-tests suite-occurs-free)
+  (run-tests suite-occurs-bound))

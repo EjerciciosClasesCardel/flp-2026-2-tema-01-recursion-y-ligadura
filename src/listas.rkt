@@ -1,6 +1,6 @@
 #lang eopl
 
-;; Clase 1 — Recursión sobre listas
+;; Tema 1 — Recursión sobre listas
 ;; Fundamentos de Interpretación y Compilación de Lenguajes de Programación
 ;; Universidad del Valle, sede Tuluá
 ;;

@@ -1,6 +1,6 @@
 #lang racket
 
-;; Pruebas de la clase 1. No modifique este archivo.
+;; Pruebas del tema 1. No modifique este archivo.
 ;;
 ;; Se corren con `raco test pruebas/` desde la raíz del repositorio, y también
 ;; solas desde DrRacket abriendo este archivo y pulsando Ejecutar.

@@ -1,4 +1,4 @@
-# Clase 1 — Recursión sobre listas en Racket
+# Tema 1 — Recursión sobre listas en Racket
 
 Fundamentos de Interpretación y Compilación de Lenguajes de Programación
 Escuela de Ingeniería de Sistemas y Computación, Universidad del Valle
@@ -25,8 +25,8 @@ en inglés, tal como aparecen allá, para que pueda buscarlas en el texto.
 3. **Clone su fork** y ábralo en DrRacket:
 
    ```bash
-   git clone https://github.com/SU-USUARIO/flp-2026-2-clase-01-recursion-listas.git
-   cd flp-2026-2-clase-01-recursion-listas
+   git clone https://github.com/SU-USUARIO/flp-2026-2-tema-01-recursion-listas.git
+   cd flp-2026-2-tema-01-recursion-listas
    ```
 
 4. **Resuelva** los cuatro puntos en `src/listas.rkt`.

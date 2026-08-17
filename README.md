@@ -29,8 +29,8 @@ texto.
 3. **Clone su fork** y ábralo en DrRacket:
 
    ```bash
-   git clone https://github.com/SU-USUARIO/flp-2026-2-tema-01-recursion-listas.git
-   cd flp-2026-2-tema-01-recursion-listas
+   git clone https://github.com/SU-USUARIO/flp-2026-2-tema-01-recursion-y-ligadura.git
+   cd flp-2026-2-tema-01-recursion-y-ligadura
    ```
 
 4. **Resuelva** los seis puntos en `src/listas.rkt`.

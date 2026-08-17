@@ -156,7 +156,8 @@ tiempo. Ese es el caso que hay que tener claro antes de escribir el código.
 Las dos funciones reciben primero la expresión y después la variable, igual que
 en la nota de clase y que el ejercicio del tema 2. EOPL las escribe con los
 argumentos en el otro orden, así que si trabaja con el libro al lado tenga
-presente el cambio.
+presente el cambio. Ojo también con el punto 3: `count-occurrences` recibe
+primero el símbolo.
 
 ### 5. `occurs-free?`
 

@@ -153,9 +153,14 @@ expresión: en `'((lambda (x) x) x)` la `x` del cuerpo la liga el lambda y la
 `x` del argumento no la liga nadie, así que ahí `x` aparece libre y ligada al
 tiempo. Ese es el caso que hay que tener claro antes de escribir el código.
 
+Las dos funciones reciben primero la expresión y después la variable, igual que
+en la nota de clase y que el ejercicio del tema 2. EOPL las escribe con los
+argumentos en el otro orden, así que si trabaja con el libro al lado tenga
+presente el cambio.
+
 ### 5. `occurs-free?`
 
-`occurs-free? : Sym × LcExp -> Bool`. Dice si la variable aparece libre en la
+`occurs-free? : LcExp × Sym -> Bool`. Dice si la variable aparece libre en la
 expresión. La definición de EOPL, sección 1.2.4, va por los tres casos de la
 gramática: en un identificador es libre si es esa misma variable; en
 `(lambda (y) cuerpo)` es libre si la variable no es `y` y aparece libre en el
@@ -163,14 +168,14 @@ cuerpo; en `(e1 e2)` es libre si aparece libre en alguna de las dos.
 
 ```racket
 (occurs-free? 'x 'x)                   ; => #t
-(occurs-free? 'x '(lambda (x) (x y)))  ; => #f
-(occurs-free? 'x '(lambda (y) (x y)))  ; => #t
-(occurs-free? 'x '((lambda (x) x) x))  ; => #t
+(occurs-free? '(lambda (x) (x y)) 'x)  ; => #f
+(occurs-free? '(lambda (y) (x y)) 'x)  ; => #t
+(occurs-free? '((lambda (x) x) x) 'x)  ; => #t
 ```
 
 ### 6. `occurs-bound?`
 
-`occurs-bound? : Sym × LcExp -> Bool`. Dice si la variable aparece ligada, es
+`occurs-bound? : LcExp × Sym -> Bool`. Dice si la variable aparece ligada, es
 decir si hay una ocurrencia suya dentro del cuerpo de un lambda que la
 declara. Un identificador solo nunca está ligado. En `(lambda (y) cuerpo)` lo
 está si ya lo estaba dentro del cuerpo, o si `y` es la variable y esta aparece
@@ -179,9 +184,9 @@ lo está en alguna de las dos.
 
 ```racket
 (occurs-bound? 'x 'x)                   ; => #f
-(occurs-bound? 'x '(lambda (x) x))      ; => #t
-(occurs-bound? 'x '(lambda (x) y))      ; => #f
-(occurs-bound? 'x '((lambda (x) x) x))  ; => #t
+(occurs-bound? '(lambda (x) x) 'x)      ; => #t
+(occurs-bound? '(lambda (x) y) 'x)      ; => #f
+(occurs-bound? '((lambda (x) x) x) 'x)  ; => #t
 ```
 
 El tercer ejemplo es el que decide si entendió la definición: el lambda liga

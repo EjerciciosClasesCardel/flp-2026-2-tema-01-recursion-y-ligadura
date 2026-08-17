@@ -122,11 +122,14 @@
 ;; donde no. Las dos cosas pueden pasarle a la misma variable en la misma
 ;; expresión: en `((lambda (x) x) x)` la primera x está ligada por el lambda y
 ;; la segunda, la del argumento, no la alcanza ningún lambda.
+;;
+;; Las dos funciones reciben primero la expresión y después la variable, como
+;; en la nota de clase. EOPL las escribe con los argumentos al revés.
 
 ;; ---------------------------------------------------------------------------
 ;; Punto 5
 ;;
-;; occurs-free? : Sym × LcExp -> Bool
+;; occurs-free? : LcExp × Sym -> Bool
 ;; Dice si la variable aparece libre en la expresión, es decir si hay una
 ;; ocurrencia suya que ningún lambda liga. La definición de EOPL, sección
 ;; 1.2.4, va por los tres casos de la gramática:
@@ -137,18 +140,18 @@
 ;;   - es `(e1 e2)`: libre si aparece libre en e1 o en e2.
 ;;
 ;; (occurs-free? 'x 'x)                       =>  #t
-;; (occurs-free? 'x '(lambda (x) (x y)))      =>  #f
-;; (occurs-free? 'x '(lambda (y) (x y)))      =>  #t
-;; (occurs-free? 'x '((lambda (x) x) x))      =>  #t
+;; (occurs-free? '(lambda (x) (x y)) 'x)      =>  #f
+;; (occurs-free? '(lambda (y) (x y)) 'x)      =>  #t
+;; (occurs-free? '((lambda (x) x) x) 'x)      =>  #t
 
 (define occurs-free?
-  (lambda (var exp)
+  (lambda (exp var)
     (eopl:error 'occurs-free? "sin implementar")))
 
 ;; ---------------------------------------------------------------------------
 ;; Punto 6
 ;;
-;; occurs-bound? : Sym × LcExp -> Bool
+;; occurs-bound? : LcExp × Sym -> Bool
 ;; Dice si la variable aparece ligada en la expresión, es decir si hay una
 ;; ocurrencia suya dentro del cuerpo de un lambda que la declara. Los tres
 ;; casos otra vez:
@@ -163,10 +166,10 @@
 ;; pero no la usa en ninguna parte, así que x no aparece ligada ahí.
 ;;
 ;; (occurs-bound? 'x 'x)                      =>  #f
-;; (occurs-bound? 'x '(lambda (x) x))         =>  #t
-;; (occurs-bound? 'x '(lambda (x) y))         =>  #f
-;; (occurs-bound? 'x '((lambda (x) x) x))     =>  #t
+;; (occurs-bound? '(lambda (x) x) 'x)         =>  #t
+;; (occurs-bound? '(lambda (x) y) 'x)         =>  #f
+;; (occurs-bound? '((lambda (x) x) x) 'x)     =>  #t
 
 (define occurs-bound?
-  (lambda (var exp)
+  (lambda (exp var)
     (eopl:error 'occurs-bound? "sin implementar")))

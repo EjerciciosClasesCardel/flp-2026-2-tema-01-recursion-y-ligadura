@@ -4,9 +4,10 @@ Fundamentos de Interpretación y Compilación de Lenguajes de Programación
 Escuela de Ingeniería de Sistemas y Computación, Universidad del Valle
 Carlos Andrés Delgado Saavedra
 
-Ejercicio para hacer en casa después de la primera sesión. No se califica: es
-para que llegue a la clase 2 con Racket funcionando y con la recursión sobre
-listas ya en los dedos, porque de ahí en adelante todo el curso se escribe así.
+Ejercicio de autoseguimiento del tema 1. No se califica y no hay que
+entregarlo: las pruebas le dicen solas si va bien. Sirve para dejar Racket
+funcionando y la recursión estructural practicada, que es como se escribe todo
+lo que viene después en el curso.
 
 Las cuatro funciones salen de la sección 1.2 de *Essentials of Programming
 Languages*, tercera edición, que es el libro del curso. Los nombres se dejaron
